@@ -47,25 +47,6 @@ _start:
 	mov ax,bx
 	mov rbx,10
 
-accept_16:
-	scall 0,0,buf,5
-	xor bx,bx
-	mov rcx,4
-	mov rsi,buf
-
-next_digit:
-	shl bx,04
-	mov al,[rsi]
-	cmp al,39h
-	jbe l1
-	sub al,07h
-
-l1:	sub al,30h
-	add bx,ax
-	inc rsi
-	loop next_digit
-ret
-
 loop:
 	xor rdx,rdx
 	div rbx
@@ -84,6 +65,25 @@ print:
 	dec byte[digitcount]
 	jnz print
 	exit
+
+accept_16:
+	scall 0,0,buf,5
+	xor bx,bx
+	mov rcx,4
+	mov rsi,buf
+
+next_digit:
+	shl bx,04
+	mov al,[rsi]
+	cmp al,39h
+	jbe l1
+	sub al,07h
+
+l1:	sub al,30h
+	add bx,ax
+	inc rsi
+	loop next_digit
+ret
 
 mov rax,60
 mov rdi,0
